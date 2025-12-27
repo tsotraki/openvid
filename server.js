@@ -1,10 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// Node 18+ has native fetch, so we don't strictly need node-fetch import if running modern node.
-// But if specifically needed we would import it. Assuming Node 18+ based on environment.
-// However, to be safe and broadly compatible, I'll rely on global fetch if available or try to import it.
-// Actually, simple standard logic for modern Node projects is enough.
 
 dotenv.config();
 
@@ -14,7 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.static('public'));
 
-// Helper: Parse ISO 8601 duration (PT1H2M3S) to seconds
+// Create a router for API endpoints
+const router = express.Router();
+
+// Helper: Parse ISO 8601 duration
 function parseDuration(duration) {
     if (!duration) return 0;
     const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
@@ -27,7 +26,7 @@ function parseDuration(duration) {
     return hours * 3600 + minutes * 60 + seconds;
 }
 
-// Helper: Format seconds to MM:SS or HH:MM:SS
+// Helper: Format seconds
 function formatSeconds(seconds) {
     if (!seconds) return 'N/A';
     const h = Math.floor(seconds / 3600);
@@ -251,8 +250,8 @@ async function searchNASA(query, maxResults = 10) {
     }
 }
 
-// ==================== MAIN SEARCH API ====================
-app.get('/api/search', async (req, res) => {
+// ==================== MAIN SEARCH API (ROUTER) ====================
+router.get('/search', async (req, res) => {
     const query = req.query.q;
     const sources = (req.query.sources || 'peertube,archive,dailymotion,wikimedia,nasa').split(',');
     const sort = req.query.sort || 'relevance';
@@ -264,8 +263,6 @@ app.get('/api/search', async (req, res) => {
     }
 
     const limitPerSource = 15;
-
-    // Define search promises based on requested sources
     const searchPromises = [];
 
     if (sources.includes('peertube')) searchPromises.push(searchPeerTube(query, limitPerSource));
@@ -303,18 +300,21 @@ app.get('/api/search', async (req, res) => {
 });
 
 // Health Check
-app.get('/api/health', (req, res) => {
+router.get('/health', (req, res) => {
     res.json({
         status: 'ok',
         sources: ['peertube', 'archive', 'dailymotion', 'wikimedia', 'nasa']
     });
 });
 
+// MOUNT ROUTER FOR BOTH LOCAL AND NETLIFY PATHS
+app.use('/api', router);
+app.use('/.netlify/functions/api', router); // Fix for Netlify function path
+
 // Export app for serverless usage
 export default app;
 
 // Only start server if run directly (local dev)
-// Check if file is being executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
     app.listen(PORT, () => {
         console.log(`🎬 OpenVid Server running at http://localhost:${PORT}`);
