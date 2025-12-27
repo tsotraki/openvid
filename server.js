@@ -310,7 +310,14 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`🎬 OpenVid Server running at http://localhost:${PORT}`);
-    console.log(`✅ All sources are OPEN and FREE`);
-});
+// Export app for serverless usage
+export default app;
+
+// Only start server if run directly (local dev)
+// Check if file is being executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+    app.listen(PORT, () => {
+        console.log(`🎬 OpenVid Server running at http://localhost:${PORT}`);
+        console.log(`✅ All sources are OPEN and FREE`);
+    });
+}
