@@ -1,0 +1,28 @@
+{
+  "name": "openvid",
+  "version": "1.0.0",
+  "description": "Unified video search aggregator - Search videos across the open web",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "video",
+    "search",
+    "aggregator",
+    "youtube",
+    "peertube",
+    "vimeo",
+    "internet-archive"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2"
+  }
+}

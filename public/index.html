@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="OpenVid - Search videos across the open web. Unified video search aggregator for YouTube, PeerTube, Internet Archive, and Vimeo.">
+    <meta name="keywords"
+        content="video search, open web, youtube, peertube, vimeo, internet archive, video aggregator">
+    <meta name="author" content="OpenVid">
+    <meta name="theme-color" content="#6366f1">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="OpenVid - Search Videos Across the Open Web">
+    <meta property="og:description" content="Unified video search aggregator. No tracking, no login, just search.">
+    <meta property="og:type" content="website">
+
+    <title>OpenVid - Search Videos Across the Open Web</title>
+
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-actions">
+                <button id="themeToggle" class="btn-icon" aria-label="Toggle theme" title="Switch theme">
+                    <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                </button>
+                <button id="helpBtn" class="btn-icon-text" aria-label="Help" title="How to use OpenVid">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span>Help</span>
+                </button>
+                <button id="libraryBtn" class="btn-icon-text" aria-label="My Library">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-heart">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span>My Library</span>
+                    <span id="savedCount" class="badge-count" style="display: none;">0</span>
+                </button>
+            </div>
+            <a href="/" class="logo">
+                <span class="logo-icon">▶</span>
+                <span class="logo-text">Open<span class="logo-highlight">Vid</span></span>
+            </a>
+            <p class="tagline">Search videos across the open web</p>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">
+                <span class="hero-title-line">Discover Videos</span>
+                <span class="hero-title-line gradient-text">From Everywhere</span>
+            </h1>
+            <p class="hero-subtitle">
+                One search, multiple platforms. No tracking, no login.
+                <br>Just videos from the open web.
+            </p>
+
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for videos..."
+                        autocomplete="off">
+                    <button id="voiceBtn" class="voice-btn" title="Search by voice">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                            <line x1="12" y1="19" x2="12" y2="23" />
+                            <line x1="8" y1="23" x2="16" y2="23" />
+                        </svg>
+                    </button>
+                    <div class="search-divider"></div>
+                    <button id="searchBtn" class="search-btn">
+                        <span>Search</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Categories -->
+            <div class="categories" id="categories">
+                <button class="category-chip" data-category="Music">🎵 Music</button>
+                <button class="category-chip" data-category="Sports">⚽ Sports</button>
+                <button class="category-chip" data-category="Gaming">🎮 Gaming</button>
+                <button class="category-chip" data-category="Education">📚 Education</button>
+                <button class="category-chip" data-category="Science">🔬 Science</button>
+                <button class="category-chip" data-category="Technology">💻 Technology</button>
+                <button class="category-chip" data-category="Art">🎨 Art</button>
+                <button class="category-chip" data-category="Nature">🌿 Nature</button>
+                <button class="category-chip" data-category="History">🏛️ History</button>
+                <button class="category-chip" data-category="Cooking">🍳 Cooking</button>
+            </div>
+
+            <!-- Library Layout (Only visible in Library Mode) -->
+            <div id="libraryLayout" class="library-layout" style="display: none;">
+                <div class="library-sidebar">
+                    <div class="sidebar-header">
+                        <h3>My Playlists</h3>
+                        <button id="createPlaylistBtn" class="btn-icon-small" title="Create Playlist">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <ul id="playlistList" class="playlist-list">
+                        <!-- Playlists injected here -->
+                    </ul>
+                </div>
+                <div class="library-content">
+                    <div class="library-header">
+                        <h2 id="currentPlaylistTitle">Favorites</h2>
+                        <button id="deletePlaylistBtn" class="btn-text-danger" style="display: none;">Delete
+                            Playlist</button>
+                    </div>
+                    <!-- Results will be injected here in standard grid -->
+                    <div id="libraryGrid" class="results-grid"></div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters" id="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Sources:</span>
+                    <div class="filter-toggles">
+                        <label class="filter-toggle active" data-source="peertube">
+                            <input type="checkbox" checked>
+                            <span class="toggle-icon peertube-icon">◉</span>
+                            <span>PeerTube</span>
+                        </label>
+                        <label class="filter-toggle active" data-source="archive">
+                            <input type="checkbox" checked>
+                            <span class="toggle-icon archive-icon">📚</span>
+                            <span>Archive</span>
+                        </label>
+                        <label class="filter-toggle active" data-source="dailymotion">
+                            <input type="checkbox" checked>
+                            <span class="toggle-icon dailymotion-icon">▶</span>
+                            <span>Dailymotion</span>
+                        </label>
+                        <label class="filter-toggle active" data-source="wikimedia">
+                            <input type="checkbox" checked>
+                            <span class="toggle-icon wikimedia-icon">W</span>
+                            <span>Wikimedia</span>
+                        </label>
+                        <label class="filter-toggle active" data-source="nasa">
+                            <input type="checkbox" checked>
+                            <span class="toggle-icon nasa-icon">🚀</span>
+                            <span>NASA</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Filter By:</span>
+                    <div class="filter-controls">
+                        <select id="dateSelect" class="filter-select" aria-label="Upload Date">
+                            <option value="all">Any Date</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+
+                        <select id="durationSelect" class="filter-select" aria-label="Duration">
+                            <option value="all">Any Duration</option>
+                            <option value="short">Short (< 4 min)</option>
+                            <option value="medium">Medium (4-20 min)</option>
+                            <option value="long">Long (> 20 min)</option>
+                        </select>
+
+                        <select id="sortSelect" class="filter-select" aria-label="Sort By">
+                            <option value="relevance">Relevance</option>
+                            <option value="date">Upload Date</option>
+                            <option value="views">View Count</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+        <div class="container">
+            <!-- Status Bar -->
+            <div class="results-header" id="resultsHeader">
+                <h2 class="results-title" id="resultsTitle"></h2>
+                <div class="results-stats" id="resultsStats"></div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-container" id="loadingState" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Searching across platforms...</p>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">🔍</div>
+                <h3>No videos found</h3>
+                <p>Try different keywords or enable more sources</p>
+            </div>
+
+            <!-- API Status Warning -->
+            <div class="api-warning" id="apiWarning" style="display: none;">
+                <div class="warning-icon">⚠️</div>
+                <p>Some sources are unavailable. <span id="availableSources"></span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-container help-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">📖 How to Use OpenVid</h3>
+                <button class="modal-close" id="helpClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body help-content">
+                <div class="help-section">
+                    <h3>🔍 Powerful Search</h3>
+                    <p>
+                        <strong>Text Search:</strong> Type keywords to search across 5 open platforms
+                        simultaneously.<br>
+                        <strong>Voice Search:</strong> Click the microphone 🎤 and speak to search.<br>
+                        <strong>Quick Categories:</strong> Click the topic chips (e.g., Music, Tech) for instant
+                        results.
+                    </p>
+                </div>
+
+                <div class="help-section">
+                    <h3>⚡ Smart Filters</h3>
+                    <p>Refine your results instantly:</p>
+                    <ul>
+                        <li><strong>Duration:</strong> Filter by Short (< 4m), Medium, or Long (> 20m).</li>
+                        <li><strong>Date:</strong> Find videos uploaded Today, this Week, Month, or Year.</li>
+                        <li><strong>Sources:</strong> Toggle platforms like NASA, Wikimedia, etc. on/off.</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3>📂 Playlists & Library</h3>
+                    <p>Organize your favorite content without a login:</p>
+                    <ul>
+                        <li><strong>Save:</strong> Click the Heart ❤️ icon on any video to add it to your
+                            <i>Favorites</i>.</li>
+                        <li><strong>Create Playlists:</strong> In "My Library", click the <strong>+</strong> button to
+                            create custom lists (e.g., "Study", "Gym").</li>
+                        <li><strong>Organize:</strong> Use the "Move to..." dropdown on video cards in your Library to
+                            sort them.</li>
+                    </ul>
+                    <p class="crypto-note"><strong>Note:</strong> Data is saved locally in your browser (LocalStorage).
+                    </p>
+                </div>
+
+                <div class="help-section">
+                    <h3>🎥 Video Sources</h3>
+                    <div class="source-grid">
+                        <div class="source-item"><span class="dailymotion-icon">▶</span> Dailymotion</div>
+                        <div class="source-item"><span class="peertube-icon">◉</span> PeerTube</div>
+                        <div class="source-item"><span class="archive-icon">📚</span> Internet Archive</div>
+                        <div class="source-item"><span class="wikimedia-icon">W</span> Wikimedia</div>
+                        <div class="source-item"><span class="nasa-icon">🚀</span> NASA Library</div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>🛡️ Privacy & Ethics</h3>
+                    <p>
+                        OpenVid is a <strong>privacy-first</strong> aggregator. We do not track you, use cookies, or
+                        require accounts.
+                        We aggregate content from public, open-web APIs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Video Title</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="video-wrapper">
+                    <iframe id="videoFrame" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-meta">
+                    <span class="modal-source" id="modalSource"></span>
+                    <span class="modal-channel" id="modalChannel"></span>
+                </div>
+                <a href="#" class="btn-watch-external" id="watchExternal" target="_blank" rel="noopener">
+                    Watch on source site →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">▶</span>
+                    <span class="logo-text">Open<span class="logo-highlight">Vid</span></span>
+                </div>
+                <p class="footer-text">
+                    OpenVid is a video search aggregator. We don't host any videos.
+                    <br>All content is served from and owned by their respective platforms.
+                </p>
+                <div class="footer-links">
+                    <span>Powered by open APIs:</span>
+                    <a href="https://developer.dailymotion.com/" target="_blank" rel="noopener">Dailymotion API</a>
+                    <a href="https://docs.joinpeertube.org/api-rest-reference.html" target="_blank"
+                        rel="noopener">PeerTube API</a>
+                    <a href="https://archive.org/developers/" target="_blank" rel="noopener">Internet Archive API</a>
+                    <a href="https://commons.wikimedia.org/w/api.php" target="_blank" rel="noopener">Wikimedia API</a>
+                    <a href="https://api.nasa.gov/" target="_blank" rel="noopener">NASA API</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>No cookies. No tracking. No login required.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
