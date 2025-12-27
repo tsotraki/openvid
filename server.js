@@ -311,6 +311,15 @@ router.get('/health', (req, res) => {
 app.use('/api', router);
 app.use('/.netlify/functions/api', router); // Fix for Netlify function path
 
+// Debug/Catch-all route to see what path is being requested if nothing matches
+app.use('*', (req, res) => {
+    res.status(404).json({
+        error: 'Route not found',
+        path: req.originalUrl,
+        headers: req.headers
+    });
+});
+
 // Export app for serverless usage
 export default app;
 

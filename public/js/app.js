@@ -294,7 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const response = await fetch(`/api/search?${params}`);
-            if (!response.ok) throw new Error('Search failed');
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Server Error (${response.status}): ${errText || response.statusText}`);
+            }
+
             const data = await response.json();
 
             allFetchedResults = data.results || [];
@@ -302,7 +307,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Search error:', error);
-            resultsGrid.innerHTML = `<p style="text-align:center">Something went wrong.</p>`;
+            resultsGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; color: var(--color-nasa); padding: 2rem;">
+                    <h3>Unable to load videos</h3>
+                    <p style="margin-bottom:0.5rem; font-family:monospace; background:rgba(0,0,0,0.2); display:inline-block; padding:0.5rem; border-radius:4px;">${error.message}</p>
+                    <p><small>Check if the API service is running or try refreshing.</small></p>
+                </div>
+            `;
         } finally {
             loadingState.style.display = 'none';
         }
