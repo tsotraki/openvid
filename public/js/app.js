@@ -577,13 +577,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupVoiceSearch() {
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { voiceBtn.style.display = 'none'; return; }
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'el-GR';
-        voiceBtn.addEventListener('click', () => { voiceBtn.classList.contains('listening') ? recognition.stop() : (recognition.start(), voiceBtn.classList.add('listening'), searchInput.placeholder = 'Listening...') });
-        recognition.onresult = (e) => { searchInput.value = e.results[0][0].transcript; performSearch(searchInput.value); };
-        recognition.onend = () => { voiceBtn.classList.remove('listening'); searchInput.placeholder = 'Search for videos...'; };
+        // if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { voiceBtn.style.display = 'none'; return; }
+
+        voiceBtn.addEventListener('click', () => {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert('Η φωνητική αναζήτηση δεν υποστηρίζεται στον browser σας.');
+                return;
+            }
+
+            if (voiceBtn.classList.contains('listening')) {
+                // Stop logic handled by instance if we had access, but here we scope it differently.
+                // We need to keep the instance available.
+            } else {
+                const recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'el-GR';
+
+                recognition.onstart = () => {
+                    voiceBtn.classList.add('listening');
+                    searchInput.placeholder = 'Ακούω...';
+                };
+
+                recognition.onend = () => {
+                    voiceBtn.classList.remove('listening');
+                    searchInput.placeholder = 'Search for videos...';
+                };
+
+                recognition.onresult = (e) => {
+                    searchInput.value = e.results[0][0].transcript;
+                    performSearch(searchInput.value);
+                };
+
+                recognition.start();
+            }
+        });
     }
 
     function loadFeaturedVideos() {

@@ -324,7 +324,9 @@ app.use('*', (req, res) => {
 export default app;
 
 // Only start server if run directly (local dev)
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Check if this file is being run directly (not imported)
+const isMainModule = process.argv[1] && process.argv[1].endsWith('server.js');
+if (isMainModule) {
     app.listen(PORT, () => {
         console.log(`🎬 OpenVid Server running at http://localhost:${PORT}`);
         console.log(`✅ All sources are OPEN and FREE`);

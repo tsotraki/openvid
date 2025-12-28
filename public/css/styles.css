@@ -407,6 +407,11 @@ body.light-theme .btn-icon:hover {
     transition: var(--transition-fast);
 }
 
+.voice-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
 .voice-btn:hover {
     color: var(--text-primary);
     background: rgba(255, 255, 255, 0.05);
