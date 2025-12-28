@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sunIcon = document.querySelector('.sun-icon');
     const moonIcon = document.querySelector('.moon-icon');
 
+    // Action Buttons
+    const downloadBtn = document.getElementById('downloadBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const embedBtn = document.getElementById('embedBtn');
+
     // --- STATE ---
     let currentQuery = '';
     let isSearching = false;
@@ -547,6 +552,62 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             videoFrame.src = video.embedUrl + (video.embedUrl.includes('?') ? '&autoplay=1' : '?autoplay=1');
         }
+
+        // --- Action Buttons Logic ---
+
+        // 1. Download
+        downloadBtn.onclick = () => {
+            if (video.isDirectFile) {
+                // Try to download
+                const a = document.createElement('a');
+                a.href = video.embedUrl;
+                a.download = video.title || 'video';
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                // Determine if we can offer a download link or just open source
+                // Use a reliable service or just alert for now since we aren't a backend downloader
+                // For MVP, if it's not a direct file, we redirect to source with a hint
+                window.open(video.watchUrl, '_blank');
+            }
+        };
+
+        // 2. Share
+        shareBtn.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(video.watchUrl);
+                const originalText = shareBtn.querySelector('span').textContent;
+                shareBtn.querySelector('span').textContent = 'Copied!';
+                shareBtn.classList.add('active'); // Re-use active style for feedback
+                setTimeout(() => {
+                    shareBtn.querySelector('span').textContent = originalText;
+                    shareBtn.classList.remove('active');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy keys', err);
+                prompt("Copy this link:", video.watchUrl);
+            }
+        };
+
+        // 3. Embed
+        embedBtn.onclick = async () => {
+            const embedCode = `<iframe width="560" height="315" src="${video.embedUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+            try {
+                await navigator.clipboard.writeText(embedCode);
+                const originalText = embedBtn.querySelector('span').textContent;
+                embedBtn.querySelector('span').textContent = 'Copied!';
+                embedBtn.classList.add('active');
+                setTimeout(() => {
+                    embedBtn.querySelector('span').textContent = originalText;
+                    embedBtn.classList.remove('active');
+                }, 2000);
+            } catch (err) {
+                prompt("Copy embed code:", embedCode);
+            }
+        };
+
         videoModal.classList.add('active'); document.body.style.overflow = 'hidden';
     }
     function closeVideoModal() {

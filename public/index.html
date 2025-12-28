@@ -295,7 +295,8 @@
                     <p>Organize your favorite content without a login:</p>
                     <ul>
                         <li><strong>Save:</strong> Click the Heart ❤️ icon on any video to add it to your
-                            <i>Favorites</i>.</li>
+                            <i>Favorites</i>.
+                        </li>
                         <li><strong>Create Playlists:</strong> In "My Library", click the <strong>+</strong> button to
                             create custom lists (e.g., "Study", "Gym").</li>
                         <li><strong>Organize:</strong> Use the "Move to..." dropdown on video cards in your Library to
@@ -348,6 +349,33 @@
                 <div class="modal-meta">
                     <span class="modal-source" id="modalSource"></span>
                     <span class="modal-channel" id="modalChannel"></span>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-action" id="downloadBtn" title="Download Video">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                    <button class="btn-action" id="shareBtn" title="Share Video Link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        <span>Share</span>
+                    </button>
+                    <button class="btn-action" id="embedBtn" title="Copy Embed Code">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        <span>Embed</span>
+                    </button>
                 </div>
                 <a href="#" class="btn-watch-external" id="watchExternal" target="_blank" rel="noopener">
                     Watch on source site →
