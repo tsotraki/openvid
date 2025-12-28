@@ -422,7 +422,24 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
             <div class="card-thumbnail">
                 <img src="${thumbnail}" alt="${video.title}" loading="lazy" onerror="this.src='/images/placeholder.svg'">
+                
                 ${actionButtonHtml}
+
+                <div class="card-quick-actions">
+                    <button class="btn-quick-action" title="Download" data-action="download">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </button>
+                     <button class="btn-quick-action" title="Share" data-action="share">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    </button>
+                     <button class="btn-quick-action" title="Embed" data-action="embed">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    </button>
+                </div>
+
+                <div class="card-play-icon">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
                 <div class="card-source-badge source-${video.source}">${getSourceIcon(video.source)} ${video.sourceLabel}</div>
                 ${durationHtml}
             </div>
@@ -434,6 +451,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
+
+        // Attach Quick Actions Listeners
+        const quickActions = card.querySelectorAll('.btn-quick-action');
+        quickActions.forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const action = btn.dataset.action;
+
+                if (action === 'download') {
+                    if (video.isDirectFile) {
+                        const a = document.createElement('a');
+                        a.href = video.embedUrl;
+                        a.download = video.title || 'video';
+                        a.target = '_blank';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    } else {
+                        window.open(video.watchUrl, '_blank');
+                    }
+                } else if (action === 'share') {
+                    navigator.clipboard.writeText(video.watchUrl).then(() => {
+                        const originalHtml = btn.innerHTML;
+                        btn.innerHTML = '✓';
+                        setTimeout(() => btn.innerHTML = originalHtml, 2000);
+                    }).catch(() => prompt("Copy link:", video.watchUrl));
+                } else if (action === 'embed') {
+                    const code = `<iframe width="560" height="315" src="${video.embedUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    navigator.clipboard.writeText(code).then(() => {
+                        const originalHtml = btn.innerHTML;
+                        btn.innerHTML = '✓';
+                        setTimeout(() => btn.innerHTML = originalHtml, 2000);
+                    }).catch(() => prompt("Copy embed code:", code));
+                }
+            };
+        });
 
         // Attach Event Listeners
         if (isLibraryMode) {
