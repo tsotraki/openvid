@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { voiceBtn.style.display = 'none'; return; }
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
-        recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'en-US';
+        recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'el-GR';
         voiceBtn.addEventListener('click', () => { voiceBtn.classList.contains('listening') ? recognition.stop() : (recognition.start(), voiceBtn.classList.add('listening'), searchInput.placeholder = 'Listening...') });
         recognition.onresult = (e) => { searchInput.value = e.results[0][0].transcript; performSearch(searchInput.value); };
         recognition.onend = () => { voiceBtn.classList.remove('listening'); searchInput.placeholder = 'Search for videos...'; };

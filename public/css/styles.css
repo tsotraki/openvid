@@ -397,7 +397,7 @@ body.light-theme .btn-icon:hover {
 .voice-btn {
     background: transparent;
     border: none;
-    color: var(--text-muted);
+    color: var(--primary);
     padding: 0.5rem;
     cursor: pointer;
     display: flex;
@@ -1121,9 +1121,9 @@ body.light-theme .filter-select option {
 .modal-container {
     background: var(--bg-dark);
     width: 100%;
-    max-width: 800px;
-    /* Reduced from 1000px to fit better */
-    max-height: 90vh;
+    max-width: 700px;
+    /* Reduced from 800px */
+    max-height: 85vh;
     /* Ensure it never exceeds viewport height */
     display: flex;
     flex-direction: column;
