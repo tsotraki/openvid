@@ -253,7 +253,7 @@ async function searchNASA(query, maxResults = 10) {
 // ==================== MAIN SEARCH API (ROUTER) ====================
 router.get('/search', async (req, res) => {
     const query = req.query.q;
-    const sources = (req.query.sources || 'peertube,archive,dailymotion,wikimedia,nasa').split(',');
+    const sources = (req.query.sources || 'dailymotion,archive,peertube,nasa,wikimedia').split(',');
     const sort = req.query.sort || 'relevance';
     const durationFilter = req.query.duration || 'all';
     const dateFilter = req.query.date || 'all';
@@ -265,11 +265,11 @@ router.get('/search', async (req, res) => {
     const limitPerSource = 15;
     const searchPromises = [];
 
-    if (sources.includes('peertube')) searchPromises.push(searchPeerTube(query, limitPerSource));
-    if (sources.includes('archive')) searchPromises.push(searchArchive(query, limitPerSource));
     if (sources.includes('dailymotion')) searchPromises.push(searchDailymotion(query, limitPerSource));
-    if (sources.includes('wikimedia')) searchPromises.push(searchWikimedia(query, limitPerSource));
+    if (sources.includes('archive')) searchPromises.push(searchArchive(query, limitPerSource));
+    if (sources.includes('peertube')) searchPromises.push(searchPeerTube(query, limitPerSource));
     if (sources.includes('nasa')) searchPromises.push(searchNASA(query, limitPerSource));
+    if (sources.includes('wikimedia')) searchPromises.push(searchWikimedia(query, limitPerSource));
 
     try {
         const results = await Promise.all(searchPromises);

@@ -171,6 +171,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    /* Enabled for absolute positioning of logo */
 }
 
 .logo {
@@ -181,6 +183,14 @@ body {
     color: white;
     font-weight: 700;
     font-size: 1.5rem;
+}
+
+@media (min-width: 641px) {
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 .logo-icon {
@@ -1111,7 +1121,13 @@ body.light-theme .filter-select option {
 .modal-container {
     background: var(--bg-dark);
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
+    /* Reduced from 1000px to fit better */
+    max-height: 90vh;
+    /* Ensure it never exceeds viewport height */
+    display: flex;
+    flex-direction: column;
+    /* Allow content to scroll if needed */
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
